@@ -1,0 +1,5 @@
+alias: inkomende beller transfer
+sequence:
+  - service: shell_command.phone_accept
+    data: {}
+mode: single

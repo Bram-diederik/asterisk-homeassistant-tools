@@ -1,0 +1,5 @@
+alias: inkomende beller voicemail
+sequence:
+  - service: shell_command.voicemail_transfer
+    data: {}
+mode: single
