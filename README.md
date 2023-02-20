@@ -13,6 +13,7 @@ and provides 3 options
 
 here is an (old) need to update youtube video https://www.youtube.com/watch?v=erOs4H4BXOA
 
+![](./pics/asterisk.png)
 
 
 
