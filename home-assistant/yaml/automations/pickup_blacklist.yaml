@@ -1,0 +1,45 @@
+alias: asterisk_incomming_blackist
+description: ""
+trigger:
+  - platform: webhook
+    id: foobarblcklist
+    webhook_id: foobarblacklist
+condition:
+  - condition: template
+    value_template: " {{ trigger.json.event == 'incoming_call' }} "
+  - condition: template
+    value_template: " {{ trigger.json.parsed_caller == '5556' }} "
+action:
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id: sensor.quote_of_the_day
+    enabled: true
+  - service: hassio.addon_stdin
+    data_template:
+      addon: c7744bff_ha-sip
+      input:
+        command: answer
+        number: "5556"
+        timeout: 40
+        menu:
+          language: en
+          message: >-
+            Dear caller this is edita. You are blacklisted. Here is a quote of
+            the day to make you feel better. {{
+            state_attr('sensor.quote_of_the_day','q') }} {{
+            state_attr('sensor.quote_of_the_day','a') }}. Hold the line or press
+            one to be redirected to voicemail and file your complaint
+          choices:
+            "1":
+              message: voicemail
+              action:
+                domain: script
+                service: turn_on
+                entity_id: script.inkomende_beller_voicemail_blacklist
+            timeout:
+              id: timeout
+              message: Bye.
+              post_action: hangup
+    enabled: true
+mode: single

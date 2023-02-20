@@ -1,0 +1,59 @@
+alias: phonebook update
+description: ""
+trigger:
+  - platform: webhook
+    webhook_id: "foobar43425243"
+condition: []
+action:
+  - service: tts.google_translate_say
+    data:
+      entity_id: media_player.googlehome8005
+      message: "inkomende beller {{ trigger.json.name }} "
+      language: nl
+    enabled: false
+  - service: var.set
+    data:
+      entity_id: var.call10
+      value: " {{ states('var.call9') }} "
+  - service: var.set
+    data:
+      entity_id: var.call9
+      value: " {{ states('var.call8') }} "
+  - service: var.set
+    data:
+      entity_id: var.call8
+      value: " {{ states('var.call7') }} "
+  - service: var.set
+    data:
+      entity_id: var.call7
+      value: " {{ states('var.call6') }} "
+  - service: var.set
+    data:
+      entity_id: var.call6
+      value: " {{ states('var.call5') }} "
+  - service: var.set
+    data:
+      entity_id: var.call5
+      value: " {{ states('var.call4') }} "
+  - service: var.set
+    data:
+      entity_id: var.call4
+      value: " {{ states('var.call3') }} "
+  - service: var.set
+    data:
+      entity_id: var.call3
+      value: " {{ states('var.call2') }} "
+  - service: var.set
+    data:
+      entity_id: var.call2
+      value: " {{ states('var.call1') }} "
+  - service: var.set
+    data:
+      entity_id: var.call1
+      value: " {{ trigger.json.key }} "
+  - service: input_text.set_value
+    data:
+      value: "{{ (trigger.json.key | default).split(' ')| last() }}"
+    target:
+      entity_id: input_text.callnumber
+mode: single
