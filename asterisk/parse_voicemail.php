@@ -2,8 +2,8 @@
 <?php
 
 $http_path = "/var/www/html/asterisk/";
-$http_url = "http://192.168.1.2/asterisk/";
-$spool_path = "/var/spool/asterisk/voicemail/default/1000/INBOX/";
+$http_url = "http://192.168.5.43/asterisk/";
+$spool_path = "/var/spool/asterisk/voicemail/default/6001/INBOX/";
 $voicemail_count_file ="/opt/asterisk/count_file.txt";
 
 $nFound = 0;

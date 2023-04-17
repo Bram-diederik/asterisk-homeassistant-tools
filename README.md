@@ -1,11 +1,9 @@
 # asterisk-homeassistant-tools
-asterisk number recognition, HA-SIP use cases
+asterisk number recognition, smart vociemail
 
 This is an 22st solution for an awnsering machine using asterisk and home assistant.
-using the sip-ha addon https://github.com/arnonym/ha-plugins
 
-sip-ha picks up the phone when busy and explains the status.
-and provides 3 options
+Sascha picks up the call when your busy due to a schedule meeting or a manual switch or its late and gives the caller the option to
 1 call voicemail.
 2 continue to call. (behind password for not close persons)
 3 give more info. (behind password for not close persons)
