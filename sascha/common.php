@@ -42,7 +42,7 @@ function status() {
 }
 
 function calendar() {
-    return file_get_contents("/opt/HA/calendar_text");
+    return file_get_contents("/opt/HA/calendar_msg");
 }
 
 function caller() {
