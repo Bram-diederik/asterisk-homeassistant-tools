@@ -13,11 +13,8 @@ here is an (old) need to update youtube video https://www.youtube.com/watch?v=er
 
 ![](./pics/asterisk.png)
 
+# atleast these (debian) packages are required
+`apt install php php-yaml php-sqlite3 php-curl sox libsox-fmt-all`
 
-
-this uses custom voice commands for asterisk. I use the google text to speech for this. I'm not sure i can share the .gsm files. 
-
-here is a command to generate .gsm files using  gtts-cli (install with pip) and sox
-```
- gtts-cli 'Dear caller this is a message' | sox -t mp3 -  -r 8000 -c1 message.gsm
-```
+# python pip 
+`pip install gtts`
