@@ -18,3 +18,9 @@ here is an (old) need to update youtube video https://www.youtube.com/watch?v=er
 
 # python pip 
 `pip install gtts`
+
+
+create a gsm tts message with gtts
+```
+gtts-cli 'Dear caller this is a message' | sox -t mp3 -  -r 8000 -c1 message.gsm
+```
