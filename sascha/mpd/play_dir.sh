@@ -2,7 +2,7 @@
 # Set the directory name and playlist name from command line arguments
 dir_name="$1" 
 #dir_name2=`echo $dir_name | sed 's/ /\_/g'`
-host="192.168.5.40"
+host="192.168.5.2"
 # Try to load the playlist
 mpc --host $host clear 
 mpc --host $host load "$dir_name" 

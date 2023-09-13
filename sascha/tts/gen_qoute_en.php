@@ -5,7 +5,7 @@ include("/opt/sascha/common.php");
 $url = 'https://api.api-ninjas.com/v1/quotes';
 $options = [
     'http' => [
-        'header' => 'X-Api-Key: apikey'
+        'header' => 'X-Api-Key: CIJSdtkhMPncU8d+tcATYA==iLETzVjE2gPtYbwP'
     ]
 ];
 $context = stream_context_create($options);

@@ -3,7 +3,7 @@
 include("/opt/sascha/common.php");
 $lang = "en";
 $greet = greet();
-$busy = busy_msg();
+$busy = busy_msg("en");
 $name = caller();
 
 $failbackmessage = "Hello. Sascha Speaking Bram is busy.";

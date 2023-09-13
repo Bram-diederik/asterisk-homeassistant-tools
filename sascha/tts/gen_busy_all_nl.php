@@ -5,7 +5,6 @@ $lang = "nl";
 $greet = greet();
 $name = caller();
 
-
 $failbackmessage = "Hallo dit is Sascha. Bram is bezig.";
 $message = "$greet $name dit is Sascha. Bram is bezig.";
 

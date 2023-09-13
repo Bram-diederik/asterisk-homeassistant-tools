@@ -10,6 +10,7 @@ $failbackmessage = "Hallo, Dit is Sascha. Het is laat en Bram wilt niet gestoord
 $failbackfile = tts($failbackmessage);
 if ($file = tts($message)) {
   echo $file;
-else 
+} else  {
   echo $failbackfile;
+}
 ?>

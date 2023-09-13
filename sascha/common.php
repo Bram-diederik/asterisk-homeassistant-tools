@@ -24,7 +24,8 @@ function tts($message) {
  if (file_exists($dir.$messageFile.".gsm")) {
     return $messageFile;
   }
-  @exec("gtts-cli -l $lang '$message' 2>/dev/null | sox -t mp3 -  -r 8000 -c1 ".$dir . $messageFile . ".gsm 2>/dev/null" , $output, $retval);
+  @exec("gtts-cli -l $lang '$message' | sox -t mp3 -  -r 8000 -c1 ".$dir . $messageFile . ".gsm " , $output, $retval);
+#  @exec("gtts-cli -l $lang '$message' 2>/dev/null | sox -t mp3 -  -r 8000 -c1 ".$dir . $messageFile . ".gsm 2>/dev/null" , $output, $retval);
   if ($retval == 0) {
    return $messageFile;
 
@@ -41,16 +42,24 @@ function status() {
   }
 }
 
-function calendar() {
+function calendar($lang = "nl") {
+  if ($lang === "nl") {
     return file_get_contents("/opt/HA/calendar_msg");
+  } else {
+       return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/HA/calendar_msg")."\" | tr -d '\\n'");
+  }
 }
 
 function caller() {
     return file_get_contents("/opt/vcf2asterisk/name");
 }
 
-function busy_msg() {
-    return file_get_contents("/opt/HA/busy_msg");
+function busy_msg($lang = "nl") {
+    if ($lang === "nl") {
+       return file_get_contents("/opt/HA/busy_msg");
+    } else {
+       return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/HA/busy_msg")."\" | tr -d '\\n'");
+    }
 }
 
 function greet() {
