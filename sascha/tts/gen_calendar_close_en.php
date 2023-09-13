@@ -4,9 +4,8 @@ include("/opt/sascha/common.php");
 $lang = "en";
 
 $greet = greet();
-$busy = busy_msg();
 $name = caller();
-$cal = calendar();
+$cal = calendar("en");
 
 $failbackmessage = "Hello. Sascha Speaking Bram is having an appiontment.";
 $message = "$greet, $name. Sascha Speaking Bram is having an appiontment $cal.";

@@ -6,7 +6,7 @@ $greet = greet();
 $name = caller();
 
 $message = "$greet, $name, toets 1 om voicemail te luisteren 2 om wekker in te stellen";
-$failbackmessage = "$greet, $name, toets 1 om voicemail te luisteren 2 om wekker in te stellen";
+$failbackmessage = "$toets 1 om voicemail te luisteren 2 om wekker in te stellen";
 
 $failbackfile = tts($failbackmessage);
 if ($file = tts($message)) 

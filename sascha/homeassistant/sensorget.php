@@ -19,6 +19,8 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 curl_close($ch);
 
+#print_r($result );
+
 $stateObj = json_decode($result, true); // Decode the retrieved state object into an associative array
 
 if ($sAttributeName) {

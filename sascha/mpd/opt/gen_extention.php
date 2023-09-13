@@ -1,7 +1,7 @@
 #!/usr/bin/php
 
 <?php
-$mpd_host = "192.168.5.40";
+$mpd_host = "192.168.5.2";
 $extention = "";
 
 $header = '
