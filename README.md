@@ -1,4 +1,6 @@
 # asterisk-homeassistant-tools
+
+# sascha 
 asterisk number recognition, smart vociemail
 
 This is an 22st solution for an awnsering machine using asterisk and home assistant.
@@ -13,6 +15,12 @@ here is an (old) need to update youtube video https://www.youtube.com/watch?v=er
 
 ![](./pics/asterisk.png)
 
+# other code
+this code also includes asterisk interface to control your home assistant with your sip phone.
+select music and control switches.
+
+there is also a script to create mpd playlist cards in home assistant
+
 # atleast these (debian) packages are required
 `apt install php php-yaml php-sqlite3 php-curl sox libsox-fmt-all`
 
@@ -24,3 +32,4 @@ create a gsm tts message with gtts
 ```
 gtts-cli 'Dear caller this is a message' | sox -t mp3 -  -r 8000 -c1 message.gsm
 ```
+
