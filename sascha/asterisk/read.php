@@ -1,9 +1,9 @@
 #!/usr/bin/php
 <?php
 //read status from home assistant cached values for optimal speed for asterisk
-$dir = "/opt/HA/";
-$webhook = "webhookpassword";
-$url = "http://homeassistant:8123";
+$asterisk_dir = "/opt/sascha/asterisk/";
+
+require_once("/opt/sascha/common.php");
 
 //HARDCODED VARIBLES
 //the addressbook switches are hard coded
@@ -30,13 +30,12 @@ if (@$argv[2]) {
 else {
    $stop_at_veryClose = 1;
 }
-if  ($addressbook == "Very_close")
+if  ($addressbook == "very close")
 {
   if ($stop_at_veryClose) {
     echo 1;
-    $name = file_get_contents("/opt/vcf2asterisk/name");
-    $name_number = file_get_contents("/opt/vcf2asterisk/name_number");
-    system("curl -s -X POST  -H \"Content-Type: application/json\" -d '{ \"key\": \"$name_number\",\"name\":\"$name\" }' ".$url."/api/webhook/".$webhook);
+    $name_number = file_get_contents("/opt/sascha/nextcloud/name_number.txt"); 
+    system("/opt/sascha/homeassistant/scriptrun.php phonebook_update '{ \"name\": \"$name_number\" }'");
     exit(1);
   } else {
     $addressbook = "close";
@@ -44,11 +43,11 @@ if  ($addressbook == "Very_close")
 }
 
 
-$sBeschikbaar = file_get_contents($dir."available");
-$sBusy = file_get_contents($dir."busy");
-$sCalendar = file_get_contents($dir."calendar_item");
-$sBlock = file_get_contents($dir."block_unknown");
-$sTochBedroomCharing =  file_get_contents($dir."phone_change");
+$sBeschikbaar = file_get_contents($asterisk_dir."available.txt");
+$sBusy = file_get_contents($asterisk_dir."busy.txt");
+$sCalendar = file_get_contents($asterisk_dir."calendar_item.txt");
+$sBlock = file_get_contents($asterisk_dir."block_unknown.txt");
+$sTochBedroomCharing =  file_get_contents($asterisk_dir."phone_change.txt");
 if ($sBlock == "on" && $addressbook == "none") {
     $bKarinPickup = true;
 } elseif ($sBeschikbaar == "on") {
@@ -59,11 +58,12 @@ else if ($sCalendar == "on") {
  } else if ($sBusy == "on") {
     $bKarinPickup = true;
  } else {
+
   $now =  new DateTime();
   $sleep_none = DateTime::createFromFormat('H:i', "21:00");
-  $wakeup_none = DateTime::createFromFormat('H:i', "08:30");
+  $wakeup_none = DateTime::createFromFormat('H:i', "08:00");
   $sleep_all = DateTime::createFromFormat('H:i', "21:30");
-  $wakeup_all = DateTime::createFromFormat('H:i', "08:30");
+  $wakeup_all = DateTime::createFromFormat('H:i', "08:00");
   $sleep_close = DateTime::createFromFormat('H:i', "23:30");
   $wakeup_close = DateTime::createFromFormat('H:i', "07:30");
   $sleep_torch_close = DateTime::createFromFormat('H:i', "21:30");
@@ -73,6 +73,7 @@ else if ($sCalendar == "on") {
    if ($addressbook  == "none" && ($sleep_none < $now || $wakeup_none > $now)) {
      $bKarinPickup = true;
    } else if ($addressbook  == "all" && ($sleep_all < $now || $wakeup_all > $now)) {
+
     $bKarinPickup = true;
    } else if ($addressbook  == "close" ) {
      if ($sTochBedroomCharing == "on" &&  ($sleep_torch_close < $now || $wakeup_torch_close >$now)) 
@@ -85,9 +86,8 @@ else if ($sCalendar == "on") {
   }
 }
 
-$name = file_get_contents("/opt/vcf2asterisk/name");
-$name_number = file_get_contents("/opt/vcf2asterisk/name_number");
-system("curl -s -X POST  -H \"Content-Type: application/json\" -d '{ \"key\": \"$name_number\",\"name\":\"$name\" }' ".$url."/api/webhook/".$webhook);
+$name_number = file_get_contents("/opt/sascha/nextcloud/name_number.txt"); 
+system("/opt/sascha/homeassistant/scriptrun.php phonebook_update '{ \"name\": \"$name_number\" }' > /dev/null 2>&1");
 
 
 if ($bKarinPickup) {

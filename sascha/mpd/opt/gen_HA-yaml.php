@@ -3,10 +3,28 @@
 // Replace with your own Spotify API credentials
 $mpd_host = "192.168.5.2";
 
-$client_id = '7d8e3ac24228439fb5bb0a71e6079ac4';
-$client_secret = '6fb905d5d83148b49aa28c2dcef9df5a';
+$client_id = 'spotify_id';
+$client_secret = 'spotify_password';
 
-$script = "script.mpd_playlist_huiskamer";
+$script = "script.mpd_playlist_slaapkamer";
+
+$img_dir = "./images/";
+$img_path = "/local/images/";
+
+function copy_img($url) {
+  global $img_dir;
+  global $img_path;
+  $file_name = basename($url);
+
+  $destination = $img_dir . $file_name;
+
+  if (copy($url, $destination)) {
+  } else {
+    echo "##Failed to copy file##\n";
+  }
+  return $img_path . $file_name;
+}
+
 
 
 // Replace with the artist name you want to search for
@@ -62,7 +80,7 @@ curl_close($ch);
 
 // Parse the JSON response and retrieve the artist image URL
 $data = json_decode($response, true);
-$image_url = $data['images'][0]['url'];
+$image_url = copy_img($data['images'][0]['url']);
 
 // Output the image URL
 return $image_url;

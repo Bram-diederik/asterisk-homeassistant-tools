@@ -1,4 +1,4 @@
 <?php
 $sHomeApiUrl = "https://homeassistant";
-$sHomeApiKey = "";
+$sHomeApiKey = "yourkey";
 ?>
