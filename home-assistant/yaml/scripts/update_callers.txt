@@ -1,16 +1,6 @@
+
 alias: phonebook update
-description: ""
-trigger:
-  - platform: webhook
-    webhook_id: "foobar43425243"
-condition: []
-action:
-  - service: tts.google_translate_say
-    data:
-      entity_id: media_player.googlehome8005
-      message: "inkomende beller {{ trigger.json.name }} "
-      language: nl
-    enabled: false
+sequence:
   - service: var.set
     data:
       entity_id: var.call10
@@ -50,10 +40,5 @@ action:
   - service: var.set
     data:
       entity_id: var.call1
-      value: " {{ trigger.json.key }} "
-  - service: input_text.set_value
-    data:
-      value: "{{ (trigger.json.key | default).split(' ')| last() }}"
-    target:
-      entity_id: input_text.callnumber
+      value: " {{ name }} "
 mode: single
