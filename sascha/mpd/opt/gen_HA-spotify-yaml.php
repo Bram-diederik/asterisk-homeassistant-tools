@@ -3,13 +3,28 @@
 // Replace with your own Spotify API credentials
 $mpd_host = "192.168.5.2";
 
-$client_id = '7d8e3ac24228439fb5bb0a71e6079ac4';
-$client_secret = '6fb905d5d83148b49aa28c2dcef9df5a';
+$client_id = 'spotify_id';
+$client_secret = 'spotify_password';
 
-$script = "script.spotify_playlist_huiskamer";
+$script = "script.spotify_playlist_slaapkamer";
 
-
+$img_dir = "./images/";
+$img_path = "/local/images/";
 $aPlaylists = array('4dRH3BkApEgxDZyOAco3s0','68ZZktlA7YAsCnOov9nDx6','37i9dQZF1DX6J5NfMJS675','37i9dQZF1DXbITWG1ZJKYt','0XTgZJ28iOJLpwaTqeobfj');
+
+function copy_img($url) {
+  global $img_dir;
+  global $img_path;
+  $file_name = basename($url);
+
+  $destination = $img_dir . $file_name;
+
+  if (copy($url, $destination)) {
+  } else {
+    echo "##Failed to copy file##\n";
+  }
+  return $img_path . $file_name;
+}
 
 // Replace with the artist name you want to search for
 function playlist_image_url($playlist) {
@@ -49,11 +64,11 @@ curl_close($ch);
 // Parse the JSON response and retrieve the artist image URL
 $data = json_decode($response, true);
 $image_url = $data['images'][0]['url'];
-
+$image_local_url = copy_img($image_url);
 $name = $data['name'];
 
 // Output the image URL
-return array($name,$image_url);
+return array($name,$image_local_url);
 }
 
 

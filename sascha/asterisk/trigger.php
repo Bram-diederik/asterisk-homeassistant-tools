@@ -3,11 +3,9 @@
 //This script connects to Home assistant gets sensor information and stores it in local files.
 //You dont want to execute those delaying commands during an asterisk call
 
-$dir = "/opt/HA/";
-$sHomeApiUrl = "https://home.pi-cloud.gotdns.ch";
-$sHomeApiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiZDQ0YWZkYTE5ZTY0Yzg0OTZjOGM1MGUwYWRjZDE4NyIsImlhdCI6MTY2OTkwNzUzOSwiZXhwIjoxOTg1MjY3NTM5fQ.MwdQz9m0qmCpJ5jXsxoYkLC-NPnBhB_t0Mc93ptVFQE";
+$asterisk_dir = "/opt/sascha/asterisk/";
 
-
+require_once("/opt/sascha/common.php");
 
 
 #check avilable
@@ -23,7 +21,7 @@ curl_close($ch);
 #print_r($result);
 $sBeschikbaar = $result['state'];
 
-file_put_contents($dir."available",$sBeschikbaar);
+file_put_contents($asterisk_dir."available.txt",$sBeschikbaar);
 
 #check  block unknown
 $ch = curl_init();
@@ -38,12 +36,12 @@ curl_close($ch);
 #print_r($result);
 $sBlock = $result['state'];
 
-file_put_contents($dir."block_unknown",$sBlock);
+file_put_contents($asterisk_dir."block_unknown.txt",$sBlock);
 
 
 #check  callendar
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/calendar.persoonlijk");
+curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/calendar.personal");
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     "Authorization: Bearer ".$sHomeApiKey
 ));
@@ -65,8 +63,9 @@ if ($result['state']) {
 } else {
   $sCalendar = "off";
 }
-file_put_contents($dir."calendar_item",$sCalendar);
-file_put_contents($dir."calendar_msg",$cal_msg);
+echo $asterisk_dir."calendar_item.txt";
+file_put_contents($asterisk_dir."calendar_item.txt",$sCalendar);
+file_put_contents($asterisk_dir."calendar_msg.txt",$cal_msg);
 
 curl_close($ch);
 
@@ -83,9 +82,9 @@ curl_close($ch);
 $sBusy = $result['state'];
 
 if ( $sBusy == "on") {
-file_put_contents($dir."busy","on");
+file_put_contents($asterisk_dir."busy.txt","on");
 } else {
-  file_put_contents($dir."busy","off");
+  file_put_contents($asterisk_dir."busy.txt","off");
 }
 
 
@@ -101,9 +100,9 @@ curl_close($ch);
 $sTochBedroomCharing = $result['state'];
 
 if ($sTochBedroomCharing == "False") {
-  file_put_contents($dir."phone_change","off");
+  file_put_contents($asterisk_dir."phone_change.txt","off");
 } else {
-  file_put_contents($dir."phone_change","on");
+  file_put_contents($asterisk_dir."phone_change.txt","on");
 }
 
 
@@ -116,7 +115,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = yaml_parse(curl_exec($ch));
 curl_close($ch);
-file_put_contents($dir."busy_msg",$result['state']);
+file_put_contents($asterisk_dir."busy_msg.txt",$result['state']);
 
 
 
@@ -130,7 +129,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = yaml_parse(curl_exec($ch));
 curl_close($ch);
-file_put_contents($dir."written_status_nl",$result['state']);
+file_put_contents($asterisk_dir."written_status_nl.txt",$result['state']);
 
 
 #bram status en
@@ -142,7 +141,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = yaml_parse(curl_exec($ch));
 curl_close($ch);
-file_put_contents($dir."written_status_en",$result['state']);
+file_put_contents($asterisk_dir."written_status_en.txt",$result['state']);
 
 
 
