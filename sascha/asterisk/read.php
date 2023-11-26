@@ -5,6 +5,8 @@ $asterisk_dir = "/opt/sascha/asterisk/";
 
 require_once("/opt/sascha/common.php");
 
+$debug = false;
+
 //HARDCODED VARIBLES
 //the addressbook switches are hard coded
 //Very_close is set to always calls. 
@@ -44,8 +46,16 @@ if  ($addressbook == "very close")
 
 
 $sBeschikbaar = file_get_contents($asterisk_dir."available.txt");
+
+if ($debug)
+  echo $sBeschikbaar;
+
 $sBusy = file_get_contents($asterisk_dir."busy.txt");
+if ($debug)
+  echo $sBusy;
 $sCalendar = file_get_contents($asterisk_dir."calendar_item.txt");
+if ($debug)
+  echo $sCalendar;
 $sBlock = file_get_contents($asterisk_dir."block_unknown.txt");
 $sTochBedroomCharing =  file_get_contents($asterisk_dir."phone_change.txt");
 if ($sBlock == "on" && $addressbook == "none") {
@@ -90,11 +100,11 @@ $name_number = file_get_contents("/opt/sascha/nextcloud/name_number.txt");
 system("/opt/sascha/homeassistant/scriptrun.php phonebook_update '{ \"name\": \"$name_number\" }' > /dev/null 2>&1");
 
 
-if ($bKarinPickup) {
-  echo 0;
-  exit(0);
-} else {
+if (@$bKarinPickup) {
   echo 1;
   exit(1);
+} else {
+  echo 0;
+  exit(0);
 }
 ?>

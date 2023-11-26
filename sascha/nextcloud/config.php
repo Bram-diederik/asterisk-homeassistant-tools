@@ -2,7 +2,7 @@
 //nextcloud config
 
 $username = "username";
-$password = "1234-45678";
+$password = "password";
 $host = "https://nextcloud";
 
 //local dirs
@@ -16,10 +16,5 @@ $timeBeforeMeeting = 1500;
 //phonebook settings
 $phoneCode = "+31";
 
-//db settings
-$dbservername = "127.0.0.1";
-$dbusername = "sascha";
-$dbpassword = "<3forsascha";
-$dbname = "asterisk";
-
+require_once("/opt/sascha/settings.php");
 ?>
