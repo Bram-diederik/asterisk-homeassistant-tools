@@ -51,7 +51,7 @@ function calendar($lang = "nl") {
 }
 
 function caller() {
-    return file_get_contents("/opt/sascha/phonebook/name.txt");
+    return file_get_contents("/opt/sascha/nextcloud/name.txt");
 }
 
 function busy_msg($lang = "nl") {

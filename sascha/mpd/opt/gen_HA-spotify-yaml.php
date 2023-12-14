@@ -3,8 +3,8 @@
 // Replace with your own Spotify API credentials
 $mpd_host = "192.168.5.2";
 
-$client_id = 'spotify_id';
-$client_secret = 'spotify_password';
+$client_id = '';
+$client_secret = '';
 
 $script = "script.spotify_playlist_slaapkamer";
 

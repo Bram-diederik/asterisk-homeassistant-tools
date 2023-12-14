@@ -35,10 +35,10 @@ else {
 if  ($addressbook == "very close")
 {
   if ($stop_at_veryClose) {
-    echo 1;
+    echo 0;
     $name_number = file_get_contents("/opt/sascha/nextcloud/name_number.txt"); 
-    system("/opt/sascha/homeassistant/scriptrun.php phonebook_update '{ \"name\": \"$name_number\" }'");
-    exit(1);
+    system("/opt/sascha/homeassistant/scriptrun.php phonebook_update '{ \"name\": \"$name_number\" }' > /dev/null 2>&1");
+    exit(0);
   } else {
     $addressbook = "close";
   }

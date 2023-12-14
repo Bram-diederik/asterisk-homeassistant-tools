@@ -92,11 +92,12 @@ foreach ($phone_numbers_result as $phone_number) {
         // If modification failed, try adding the person
         $contact_attrs = [
             'objectClass' => ['top', 'person', 'organizationalPerson'],
-            'cn' => $phone_number['full_name'],
-            'sn' => explode(" ", $phone_number['full_name'])[count(explode(" ", $phone_number['full_name'])) - 1],
+            'sn' => $phone_number['full_name'],
             'telephoneNumber' => [$phone_number['phone_number']],
         ];
 
+print_r($phone_number);
+print_r($contact_attrs);
         // Add the person to LDAP
         if (ldap_add($ldapconn, $contact_dn, $contact_attrs)) {
             echo "Person added successfully\n";

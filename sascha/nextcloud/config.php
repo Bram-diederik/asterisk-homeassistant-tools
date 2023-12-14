@@ -1,8 +1,8 @@
 <?php
 //nextcloud config
 
-$username = "username";
-$password = "password";
+$username = "daft_dutch";
+$password = "";
 $host = "https://nextcloud";
 
 //local dirs

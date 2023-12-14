@@ -1,7 +1,10 @@
 #!/usr/bin/php
 <?php
 include("/opt/sascha/common.php");
-$conn = mysqli_connect($sqlHost,$sqlUser, $sqlPasswd, $sqlDb);
+
+
+
+$conn = mysqli_connect($dbservername,$dbusername, $dbpassword, $dbname);
 
 // Check connection
 if (!$conn) {
@@ -24,6 +27,7 @@ $result = mysqli_stmt_get_result($stmt);
 
 // Loop through the results and output them
 while ($row = mysqli_fetch_assoc($result)) {
+  print_r($row);
   $caller_id = $row['caller_id'];
   $wakeup_time = $row['wakeup_time'];
 
@@ -41,26 +45,15 @@ $bNewsDownload = true;
   } 
   // Get the caller ID and wake-up time from the row
   echo "\nwakeup $caller_id $wakeup_time ";
-#die();
-  // Check if the caller ID starts with "6"
-  if (substr($caller_id, 0, 1) === "6") {
-    // Create the call file with Local channel
-    $call_file_contents = "Channel: Local/$caller_id@users\n";
-    $call_file_contents .= "Context: users\n";
-    $call_file_contents .= "Extension: 4013\n";
-    $call_file_contents .= "Priority: 1\n";
-    $call_file_contents .= "MaxRetries: 0\n";
-    $call_file_contents .= "RetryTime: 60\n";
-    $call_file_contents .= "WaitTime: 30\n";
-    $call_file_name = "wakeup_$caller_id.call";
-  } else {
-    // Create the call file with SIP channel and wait time
-    $call_file_contents = "Channel: LOCAL/wakeup_out@wakeup\n";
-    $call_file_contents .= "Context: wakeup";
-    $call_file_contents .= "Priority: 1\n";
-    $call_file_name = "wakeup_sip_$caller_id.call";
-    system("asterisk -rx 'database put phones sacha/wakeupcall $caller_id'");
-  }
+  $call_file_contents = "Channel: Local/$caller_id@users\n";
+  $call_file_contents .= "Context: users\n";
+  $call_file_contents .= "Extension: 5004\n";
+  $call_file_contents .= "Priority: 1\n";
+  $call_file_contents .= "MaxRetries: 0\n";
+  $call_file_contents .= "RetryTime: 60\n";
+  $call_file_contents .= "WaitTime: 30\n";
+  $call_file_contents .= "CallerID: Wekservice <6000>\n";
+  $call_file_name = "wakeup_$caller_id.call";
 echo $call_file_name .$call_file_contents;
   // Write the call file
   file_put_contents("/tmp/".$call_file_name, $call_file_contents);

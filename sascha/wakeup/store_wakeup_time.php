@@ -7,7 +7,7 @@ $caller_id = $argv[1];
 $hours = $argv[2];
 $minutes = $argv[3];
 
-$conn = mysqli_connect($sqlHost,$sqlUser, $sqlPasswd, $sqlDb);
+$conn = mysqli_connect($dbservername,$dbusername, $dbpassword, $dbname);
 
 // Check connection
 if (!$conn) {
@@ -44,7 +44,12 @@ $wakeup_time_string = $wakeup_time->format('Y-m-d H:i:s');
 
 // Create the wakeups table if it doesn't already exist
 //$conn->exec('CREATE TABLE IF NOT EXISTS wakeups (caller_id TEXT PRIMARY KEY, wakeup_time DATETIME)');
-$sql = "CREATE TABLE IF NOT EXISTS wakeups (caller_id TEXT, wakeup_time DATETIME)";
+$sql = "CREATE TABLE IF NOT EXISTS wakeups (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    caller_id TEXT,
+    wakeup_time DATETIME
+)";
+
 mysqli_query($conn, $sql);
 
 if (mysqli_query($conn, $sql)) {
