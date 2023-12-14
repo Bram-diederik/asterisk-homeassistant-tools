@@ -2,23 +2,18 @@
 <?php
 
 $http_path = "/var/www/html/asterisk/";
-$http_url = "http://192.168.5.43/asterisk/";
+$http_url = "http://192.168.5.50/asterisk/";
 $spool_path = "/var/spool/asterisk/voicemail/default/6001/INBOX/";
 $voicemail_count_file ="/opt/asterisk/count_file.txt";
 
 $nFound = 0;
 if ($handle = opendir($spool_path)) {
-    echo "Directory handle: $handle\n";
-    echo "Entries:\n";
-
     /* This is the correct way to loop over the directory. */
     while (false !== ($entry = readdir($handle))) {
-#        echo "$entry\n";
        $pattern = "/msg(\d{4})\.wav/";
        if(preg_match_all($pattern, $entry, $matches)) {
            $voicemails[] = $matches[1][0];
            $nFound++;
-          #print_r($matches);
        }
 
     }
@@ -46,12 +41,16 @@ if ($nFound > 0) {
     print_r($info);
     $name =  $info['callerid'];
     unlink($http_path."/part".$mp3Count.".mp3");
-    system("/usr/local/bin/gtts-cli -l nl 'voicemail $voicemailCount van $name' >  ".$http_path."/part".$mp3Count.".mp3");
+    system("gtts-cli -l nl 'voicemail $voicemailCount van $name' >  ".$http_path."/part".$mp3Count.".mp3");
     file_put_contents($http_path."/playlist.m3u", $http_url."/part".$mp3Count.".mp3\n", FILE_APPEND | LOCK_EX);
     $mp3Count++;
     unlink($http_path."/part".$mp3Count.".mp3");
     system("ffmpeg -i ".$spool_path."/msg".$voicemail.".wav -ab 32k  -filter:a \"volume=3.5\"  ".$http_path."/part".$mp3Count.".mp3");
-    file_put_contents($http_path."/playlist.m3u",$http_url."/part".$mp3Count.".mp3\n", FILE_APPEND | LOCK_EX);
+    if ($mp3Count == 0) {
+      file_put_contents($http_path."/playlist.m3u",$http_url."/part".$mp3Count.".mp3\n", LOCK_EX);
+    } else  {
+      file_put_contents($http_path."/playlist.m3u",$http_url."/part".$mp3Count.".mp3\n", FILE_APPEND | LOCK_EX);
+    }
    }
 } else {
     foreach (new DirectoryIterator($http_path) as $fileInfo) {
@@ -59,9 +58,11 @@ if ($nFound > 0) {
           unlink($fileInfo->getPathname());
        }
     }
-    system("/usr/local/bin/gtts-cli -l nl 'U heeft geen berichten' >  ".$http_path."/part1.mp3");
+    system("gtts-cli -l nl 'U heeft geen berichten' >  ".$http_path."/part1.mp3");
     file_put_contents($http_path."/playlist.m3u", $http_url."/part1.mp3\n",  LOCK_EX);
 }
 
 echo "## $nFound ##";
 file_put_contents($voicemail_count_file,$nFound);
+
+?>

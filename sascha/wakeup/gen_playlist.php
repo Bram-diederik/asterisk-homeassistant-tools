@@ -1,10 +1,11 @@
+#!/usr/bin/php
 <?php
 include("/opt/sascha/common.php");
 
 $http_asterisk_path = "/var/www/html/asterisk/";
-$http_asterisk_url = "http://192.168.5.43/asterisk/";
+$http_asterisk_url = "http://192.168.5.50/asterisk/";
 $http_path = "/var/www/html/wakeup/";
-$http_url = "http://192.168.5.43/wakeup/";
+$http_url = "http://192.168.5.50/wakeup/";
 
 
 function vertaalDag($engelseDag) {
@@ -67,19 +68,19 @@ $vertaaldeMaand = vertaalMaand($engelseMaand);
 
 $hello = begroeting();
 
-  system("/usr/local/bin/gtts-cli -l nl '".$hello."' >  ".$http_path."/hello.mp3");
+  system("gtts-cli -l nl '".$hello."' >  ".$http_path."/hello.mp3");
   file_put_contents($http_path."/playlist.m3u", $http_url."/hello.mp3\n",  LOCK_EX);
   exec('/opt/asterisk/parse_voicemail.php');
   file_put_contents($http_path."/playlist.m3u",file_get_contents($http_asterisk_path."/playlist.m3u"), FILE_APPEND | LOCK_EX);
   
   $calendar = exec("/opt/sascha/homeassistant/sensorget.php sensor.calendar_item_first"); 
   if ($calendar  == "off") {
-    $calendar  = "u heeft geen agena punt";
+    $calendar  = "u heeft geen agenda punt";
   } else { 
    $calendar  = "eerste agenda punt: $calendar ";
 }
 
- system("/usr/local/bin/gtts-cli -l nl '".$calendar."' >  ".$http_path."/callendar.mp3");
+ system("gtts-cli -l nl '".$calendar."' >  ".$http_path."/callendar.mp3");
   file_put_contents($http_path."/playlist.m3u", $http_url."/callendar.mp3\n",  FILE_APPEND | LOCK_EX);
   file_put_contents($http_path."/playlist.m3u", "http://192.168.5.2:8080/podcasts/538-nieuws.php\n",  FILE_APPEND | LOCK_EX);
 
