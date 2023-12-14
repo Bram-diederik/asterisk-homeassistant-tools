@@ -30,3 +30,12 @@ create a gsm tts message with gtts
 gtts-cli 'Dear caller this is a message' | sox -t mp3 -  -r 8000 -c1 message.gsm
 ```
 
+crontab
+```
+*  *  *   *   *      /opt/sascha/asterisk/trigger.php  > /dev/null 2>&1
+*  *  *   *   *  /opt/asterisk/parse_voicemail.php > /dev/null 2>&1
+*  *  *   *   * /opt/sascha/wakeup/start_wakeup_call.php > /dev/null 2>&1
+*/10 * *  *   * /opt/sascha/nextcloud/update_calendar.php > /dev/null 2>&1
+10  0  *   *   *   /opt/sascha/nextcloud/import_phonebook.php > /dev/null 2>&1
+20  0  *   *   *   /opt/sascha/ldap/push_ldap.php > /dev/null 2>&1
+```
