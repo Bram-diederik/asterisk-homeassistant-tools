@@ -36,17 +36,17 @@ function tts($message) {
 function status() {
   global $lang;
   if ($lang = "nl") {
-    return file_get_contents("/opt/HA/written_status_nl");
+    return file_get_contents("/opt/sascha/asterisk/written_status_nl.txt");
   } else {
-    return file_get_contents("/opt/HA/written_status_en");
+    return file_get_contents("/opt/sascha/asterisk//written_status_en.txt");
   }
 }
 
 function calendar($lang = "nl") {
   if ($lang === "nl") {
-    return file_get_contents("/opt/HA/calendar_msg");
+    return file_get_contents("/opt/sascha/asterisk/calendar_msg.txt");
   } else {
-       return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/HA/calendar_msg")."\" | tr -d '\\n'");
+       return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/sascha/asterisk/calendar_msg.txt")."\" | tr -d '\\n'");
   }
 }
 
@@ -56,9 +56,9 @@ function caller() {
 
 function busy_msg($lang = "nl") {
     if ($lang === "nl") {
-       return file_get_contents("/opt/HA/busy_msg");
+       return file_get_contents("/opt/sascha/asterisk/busy_msg.txt");
     } else {
-       return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/HA/busy_msg")."\" | tr -d '\\n'");
+       return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/sascha/asterisk/busy_msg.txt")."\" | tr -d '\\n'");
     }
 }
 

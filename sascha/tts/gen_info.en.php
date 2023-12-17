@@ -3,7 +3,7 @@
 include("/opt/sascha/common.php");
 $lang = "en";
 
-$message = file_get_contents("/opt/HA/written_status_en");
+$message = file_get_contents("/opt/sascha/asterisk/written_status_en.txt");
 $failbackmessage = "Sorry, there is no infomation available";
 $failbackfile = tts($failbackmessage);
 if ($file = tts($message))
