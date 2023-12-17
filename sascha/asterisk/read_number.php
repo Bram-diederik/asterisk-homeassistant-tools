@@ -65,8 +65,6 @@ $updatePhonebookStmt = $pdo->prepare($updatePhonebookSql);
 $updatePhonebookStmt->bindParam(':number', $searchNumber, PDO::PARAM_STR);
 $updatePhonebookStmt->execute();
 
-$searchNumber = str_replace("+", "00",$searchNumber );
-
 try {
     // Create a PDO database connection
     $pdo = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
