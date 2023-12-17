@@ -23,7 +23,7 @@ select music and control switches.
 there is also a script to create mpd playlist cards in home assistant
 
 # atleast these (debian) packages are required
-`apt install php php-yaml php-sqlite3 php-curl sox libsox-fmt-all xmlstarlet php-mysql python3-gtts`
+`apt install php php-yaml php-curl sox libsox-fmt-all xmlstarlet php-mysql python3-gtts translate-shell`
 
 create a gsm tts message with gtts
 ```
