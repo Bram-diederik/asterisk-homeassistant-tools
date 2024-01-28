@@ -1,7 +1,7 @@
 # asterisk-homeassistant-tools
 
 # sascha 
-asterisk number recognition, smart vociemail
+asterisk number recognition, smart voicemail
 
 This is an 21st century "voicemail" using asterisk ,nextcloud and home assistant.
 
