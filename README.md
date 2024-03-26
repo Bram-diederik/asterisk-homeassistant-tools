@@ -3,16 +3,17 @@
 # sascha 
 asterisk number recognition, smart voicemail
 
-This is an 21st century "voicemail" using asterisk ,nextcloud and home assistant.
+This is an 21st century "voicemail" using asterisk ,nextcloud, home assistant  and ollama. 
 
 Sascha picks up the call when your busy due to a schedule meeting (meeting members are allowed to call) or a manual switch or its late and gives the caller the option to
 1 call voicemail.
 2 continue to call. (behind password for not close persons)
 3 give more info. (behind password for not close persons)
 
+unkown callers have the possibility to call anyway with a ollama AI speech to text system.
 
 
-here is an (old) need to update youtube video https://www.youtube.com/watch?v=erOs4H4BXOA
+here is a new youtube video covering the main featues . https://youtu.be/KTrcwWo3zuE?si=cGH6tYPuJm4CK3xM
 
 ![](./pics/asterisk.png)
 
