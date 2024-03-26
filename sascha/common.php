@@ -17,8 +17,10 @@ function tts($message) {
   global $lang;
   global $dir;
   $message = str_replace('\'',"",$message);
-  $messageFile = "sascha-".str_replace(':',"_",(str_replace(',',"_",(str_replace("/","_",str_replace(" ","_",$message))))));
-  
+#  if (!$messageFile) {
+    $messageFile = "sascha-".str_replace(':',"_",(str_replace(',',"_",(str_replace("/","_",str_replace(" ","_",str_replace(".","_",$message)))))));
+#  }
+
 #echo $dir.$messageFile ;
 
  if (file_exists($dir.$messageFile.".gsm")) {
@@ -54,13 +56,30 @@ function caller() {
     return file_get_contents("/opt/sascha/nextcloud/name.txt");
 }
 
-function busy_msg($lang = "nl") {
-    if ($lang === "nl") {
+function busy_msg() {
+   global $lang;
+   if ($lang === "nl") {
        return file_get_contents("/opt/sascha/asterisk/busy_msg.txt");
     } else {
        return shell_exec("trans -b nl:$lang \"".file_get_contents("/opt/sascha/asterisk/busy_msg.txt")."\" | tr -d '\\n'");
     }
 }
+
+
+function offline_msg() {
+    global $lang;
+    $msg = file_get_contents("/opt/sascha/asterisk/torch_offline_text.txt");
+    $time = file_get_contents("/opt/sascha/asterisk/torch_offline_time.txt");
+    if (strlen($msg) > 2) {
+      $msg = "Offline bericht $msg  $time geleden";
+      if ($lang === "nl") {
+         return ($msg);
+      } else {
+         return shell_exec("trans -b nl:$lang \"$msg\" | tr -d '\\n'");
+      }
+    }
+}
+
 
 function greet() {
   global $lang;

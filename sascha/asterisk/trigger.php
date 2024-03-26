@@ -41,7 +41,7 @@ file_put_contents($asterisk_dir."block_unknown.txt",$sBlock);
 
 #check  callendar
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/calendar.personal");
+curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/calendar.persoonlijk");
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     "Authorization: Bearer ".$sHomeApiKey
 ));
@@ -90,7 +90,7 @@ file_put_contents($asterisk_dir."busy.txt","on");
 
 #phone change in bedroom
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/sensor.torch_laad_slaapkamer");
+curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/sensor.glitch_laad_slaapkamer");
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
   "Authorization: Bearer ".$sHomeApiKey
 ));
@@ -144,8 +144,43 @@ curl_close($ch);
 file_put_contents($asterisk_dir."written_status_en.txt",$result['state']);
 
 
+#phone status
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/sensor.bool_asterisk_up_or_home");
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  "Authorization: Bearer ".$sHomeApiKey
+));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$result = yaml_parse(curl_exec($ch));
+curl_close($ch);
+
+file_put_contents($asterisk_dir."phone_available.txt",$result['state']);
+
+#phone offline message
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $sHomeApiUrl."/api/states/input_text.glitch_offline");
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  "Authorization: Bearer ".$sHomeApiKey
+));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$result = yaml_parse(curl_exec($ch));
+print_r($result);
+curl_close($ch);
+
+file_put_contents($asterisk_dir."glitch_offline_text.txt",$result['state']);
 
 
+if (isset($result['last_changed'])) {
+    $messageTime = strtotime($result['last_changed']);
+
+    // Calculate the time passed since the message was set
+    $timePassed = time() - $messageTime;
+
+    // Convert seconds to a human-readable format (e.g., hours, minutes, seconds)
+    $timePassedFormatted = gmdate("H:i:s", $timePassed);
+    file_put_contents($asterisk_dir."glitch_offline_time.txt",$timePassedFormatted);
+
+}
 
 
 ?>

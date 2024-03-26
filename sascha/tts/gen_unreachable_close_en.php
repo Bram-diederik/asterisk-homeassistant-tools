@@ -3,8 +3,11 @@
 include("/opt/sascha/common.php");
 $lang = "en";
 $greet = greet();
-$failbackmessage = "Hello. Sascha Speaking the one you want to call is unavailable at this moment.";
-$message = "$greet, Sascha Speaking the one you want to call is unavailable at this moment.";
+$msg = offline_msg();
+
+
+$failbackmessage = "Hello. Sascha Speaking Bram is not home at this moment and his mobile phone is unreachable";
+$message = "$greet, $name. Sascha Speaking Bram is not home at this moment and his mobile phone is unreachable $msg ";
 
 $failbackfile = tts($failbackmessage);
 if ($file = tts($message)) {

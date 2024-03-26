@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-include("/opt/sascha/common.php");
+include("/opt/sascha/sara/common.php");
 
 $sSensorName = $argv[1]; // Get the sensor name from the command-line argument
 $sAttributeName = isset($argv[2]) ? $argv[2] : null; // Get the attribute name from the command-line argument (if provided)

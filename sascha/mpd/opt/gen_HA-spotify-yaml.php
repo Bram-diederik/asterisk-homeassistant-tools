@@ -3,13 +3,13 @@
 // Replace with your own Spotify API credentials
 $mpd_host = "192.168.5.2";
 
-$client_id = '';
-$client_secret = '';
+$client_id = '7d8e3ac24228439fb5bb0a71e6079ac4';
+$client_secret = '3aa28f79d33e468c94f443722434f8df';
 
-$script = "script.spotify_playlist_slaapkamer";
+$script = "script.spotify_playlist_zelky";
 
 $img_dir = "./images/";
-$img_path = "/local/images/";
+$img_path = "/local/images/spotify/";
 $aPlaylists = array('4dRH3BkApEgxDZyOAco3s0','68ZZktlA7YAsCnOov9nDx6','37i9dQZF1DX6J5NfMJS675','37i9dQZF1DXbITWG1ZJKYt','0XTgZJ28iOJLpwaTqeobfj');
 
 function copy_img($url) {

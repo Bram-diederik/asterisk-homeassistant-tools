@@ -1,14 +1,14 @@
 <?php
 $sHomeApiUrl = "https://homeassistant";
-$sHomeApiKey = "";
+$sHomeApiKey = "token";
 
 //db settings
-$dbservername = "192.168.5.1";
-$dbusername = "sascha";
-$dbpassword = "dbpass";
+$dbservername = "127.0.0.1";
+$dbusername = "user";
+$dbpassword = "password";
 $dbname = "asterisk";
 
 $ldap_server = 'ldap://127.0.0.1';
-$ldap_username = 'cn=admin,dc=asterisk,dc=domain';
-$ldap_password = '';
+$ldap_username = 'cn=admin,dc=asterisk';
+$ldap_password = 'ldappassword';
 ?>

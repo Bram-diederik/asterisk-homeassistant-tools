@@ -7,8 +7,8 @@ $greet = greet();
 $name = caller();
 $cal = calendar("en");
 
-$failbackmessage = "Hello. Sascha Speaking Bram is having an appiontment.";
-$message = "$greet, $name. Sascha Speaking Bram is having an appiontment $cal.";
+$failbackmessage = "Hello. Sascha Speaking Bram is having an appointment.";
+$message = "$greet, $name. Sascha Speaking Bram is having an appointment $cal.";
 $failbackfile = tts($failbackmessage);
 if ($file = tts($message))
   echo $file;

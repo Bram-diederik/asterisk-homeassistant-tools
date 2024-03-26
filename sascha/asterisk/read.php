@@ -17,7 +17,7 @@ $debug = false;
 //Lots of variables are bind to these 4(3) settings
 
 
-//torch is my phone. and it will be checked if its charching in the bedroom
+//glitch is my phone. and it will be checked if its charching in the bedroom
 
 
 if (@$argv[1]) {
@@ -76,8 +76,8 @@ else if ($sCalendar == "on") {
   $wakeup_all = DateTime::createFromFormat('H:i', "08:00");
   $sleep_close = DateTime::createFromFormat('H:i', "23:30");
   $wakeup_close = DateTime::createFromFormat('H:i', "07:30");
-  $sleep_torch_close = DateTime::createFromFormat('H:i', "21:30");
-  $wakeup_torch_close = DateTime::createFromFormat('H:i', "07:30");
+  $sleep_glitch_close = DateTime::createFromFormat('H:i', "21:30");
+  $wakeup_glitch_close = DateTime::createFromFormat('H:i', "07:30");
  
 
    if ($addressbook  == "none" && ($sleep_none < $now || $wakeup_none > $now)) {
@@ -86,7 +86,7 @@ else if ($sCalendar == "on") {
 
     $bKarinPickup = true;
    } else if ($addressbook  == "close" ) {
-     if ($sTochBedroomCharing == "on" &&  ($sleep_torch_close < $now || $wakeup_torch_close >$now)) 
+     if ($sTochBedroomCharing == "on" &&  ($sleep_glitch_close < $now || $wakeup_glitch_close >$now)) 
      {
        $bKarinPickup = true;
      } else if ($sleep_close < $now || $wakeup_close > $now )

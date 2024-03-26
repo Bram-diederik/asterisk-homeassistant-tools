@@ -8,8 +8,8 @@ $busy = busy_msg();
 $name = caller();
 $cal = calendar();
 
-$failbackmessage = "Hello. Sascha Speaking. Bram is having an appiontment.";
-$message = "$greet, $name. Sascha Speaking. Bram is having an appiontment.";
+$failbackmessage = "Hello. Sascha Speaking. Bram is having an appointment.";
+$message = "$greet, $name. Sascha Speaking. Bram is having an appointment.";
 $failbackfile = tts($failbackmessage);
 if ($file = tts($message))
   echo $file;

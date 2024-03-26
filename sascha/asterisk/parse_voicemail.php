@@ -1,0 +1,128 @@
+#!/usr/bin/php
+<?php
+
+$http_path = "/var/www/html/asterisk/";
+$http_url = "http://192.168.5.50/asterisk/";
+$spool_path = "/var/spool/asterisk/voicemail/default/6001/INBOX/";
+$voicemail_count_file ="/opt/sascha/asterisk/count_file.txt";
+
+function generateVoicemailImage($number) {
+    $file = "/var/www/html/public/voicemail.png";
+    // Create a blank image with a white background
+    $imageWidth = 600;
+    $imageHeight = 500;
+    $image = imagecreatetruecolor($imageWidth, $imageHeight);
+    $backgroundColor = imagecolorallocate($image, 255, 255, 255);
+    imagefill($image, 0, 0, $backgroundColor);
+
+    // Set text color to black
+    $textColor = imagecolorallocate($image, 0, 0, 0);
+
+    // Set font size and path
+    $fontSize = 40;
+    $fontPath = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'; // Replace with the actual path to a TTF font file
+
+    // Add "Voicemails" text
+    $text = 'Voicemails';
+    $textWidth = imagettfbbox($fontSize, 0, $fontPath, $text);
+    $textX = ($imageWidth - ($textWidth[2] - $textWidth[0])) / 2;
+    $textY = $imageHeight - 100; // Adjust the vertical position as needed
+    imagettftext($image, $fontSize, 0, $textX, $textY, $textColor, $fontPath, $text);
+
+    // Add the number text
+    $numberText = (string) $number;
+    $numberTextWidth = imagettfbbox($fontSize, 0, $fontPath, $numberText);
+    $numberTextX = ($imageWidth - ($numberTextWidth[2] - $numberTextWidth[0])) / 2;
+    $numberTextY = $imageHeight - 40; // Adjust the vertical position as needed
+    imagettftext($image, $fontSize, 0, $numberTextX, $numberTextY, $textColor, $fontPath, $numberText);
+
+    // Output the image as PNG
+    imagepng($image,$file);
+
+    // Free up memory
+    imagedestroy($image);
+}
+
+
+
+$nFound = 0;
+if ($handle = opendir($spool_path)) {
+    /* This is the correct way to loop over the directory. */
+    while (false !== ($entry = readdir($handle))) {
+       $pattern = "/msg(\d{4})\.wav/";
+       if(preg_match_all($pattern, $entry, $matches)) {
+           $voicemails[] = $matches[1][0];
+           $nFound++;
+       }
+
+    }
+
+    closedir($handle);
+}
+
+$last_count = file_get_contents($voicemail_count_file);
+
+if ($last_count ==  $nFound ) {
+  echo "no change found";
+  exit(0);
+}
+if ($nFound > 0) {
+    asort($voicemails);
+   $voicemailCount = 0;
+   $mp3Count = 0;
+   unlink($http_path."/playlist.pls");
+   // Create PLS playlist
+    $plsContent = "[playlist]\n";
+    $plsCount = 0;
+
+    foreach ($voicemails as $voicemail) {
+         $info = parse_ini_file($spool_path.'/msg'.$voicemail.'.txt');
+          print_r($info);
+         $name =  $info['callerid'];
+
+        $plsCount++;
+        $voicemailCount++;
+        unlink($http_path."/part".$plsCount.".mp3");
+        system("gtts-cli -l nl 'voicemail $voicemailCount van $name' >  ".$http_path."/part".$plsCount.".mp3");
+        $plsContent .= "File" . $plsCount . "=" . $http_url . "/part" .$plsCount . ".mp3\n";
+        $plsContent .= "Title" . $plsCount . "=Voicemail intro" . $plsCount . "\n";
+        $plsCount++;
+        unlink($http_path."/part".$plsCount.".mp3");
+        system("ffmpeg -i ".$spool_path."/msg".$voicemail.".wav -ab 32k  -filter:a \"volume=3.5\"  ".$http_path."/part".$plsCount.".mp3");
+        $plsContent .= "File" . $plsCount . "=" . $http_url . "/part" . $plsCount. ".mp3\n";
+        $plsContent .= "Title" . $plsCount . "=Voicemail " . $plsCount . "\n";
+    }
+
+    $plsContent .= "NumberOfEntries=" . $plsCount . "\n";
+    $plsContent .= "Version=2\n";
+
+    file_put_contents($http_path."/playlist.pls", $plsContent);
+
+
+} else {
+    foreach (new DirectoryIterator($http_path) as $fileInfo) {
+      if(!$fileInfo->isDot()) {
+          unlink($fileInfo->getPathname());
+       }
+    }
+    system("gtts-cli -l nl 'U heeft geen berichten' >  ".$http_path."/part1.mp3");
+    file_put_contents($http_path."/playlist.m3u", $http_url."/part1.mp3\n",  LOCK_EX);
+
+   // Create PLS playlist for no voicemail message
+    $plsContent = "[playlist]\n";
+    $plsContent .= "File1=" . $http_url . "/part1.mp3\n";
+    $plsContent .= "Title1=No Voicemail\n";
+    $plsContent .= "NumberOfEntries=1\n";
+    $plsContent .= "Version=2\n";
+
+    file_put_contents($http_path."/playlist.pls", $plsContent);
+
+}
+
+echo "## $nFound ##";
+file_put_contents($voicemail_count_file,$nFound);
+
+generateVoicemailImage($nFound);
+
+
+?>

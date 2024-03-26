@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 if ($argc != 2) {
-    echo "Usage: php search_number.php <phone_number>\n";
+    echo "Usage: php search_name.php <phone_number>\n";
     exit(1);
 }
 
@@ -13,7 +13,6 @@ $searchNumber = $argv[1];
 
 $putnumber = str_replace("+", "00",$argv[1]);
 
-#die($putnumber );
 
 try {
     // Create a PDO database connection
@@ -32,6 +31,7 @@ try {
     // Check if the phone number was found in the database
     if ($stmt->rowCount() > 0) {
         $result = $stmt->fetch();
+#        print_r($result);
         $name = $result["full_name"];
         $group = $result["category"];
         echo $name;
@@ -43,7 +43,7 @@ try {
         echo $searchNumber;
     file_put_contents($dir."name.txt", $searchNumber);
     file_put_contents($dir."name_number.txt", $searchNumber);
-    file_put_contents($dir."group.txt", "all");
+    file_put_contents($dir."group.txt", "none");
     file_put_contents($dir."number.txt",$putnumber);
     }
 

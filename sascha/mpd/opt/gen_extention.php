@@ -2,9 +2,10 @@
 
 <?php
 $mpd_host = "192.168.5.2";
+$mpd_port = "6612";
 $extention = "";
 
-$device = "slaapkamer";
+$device = "study";
 
 $header = '
 
@@ -42,7 +43,7 @@ exten => e,1,Goto(select,1)
 
 echo $header;
 
-$sPlaylists = shell_exec("mpc --host $mpd_host ls");
+$sPlaylists = shell_exec("mpc -p $mpd_port --host $mpd_host ls");
 
 $aPlaylists = explode("\n",$sPlaylists);
 $aPlaylists = array_unique($aPlaylists );

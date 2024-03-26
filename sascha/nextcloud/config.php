@@ -1,16 +1,16 @@
 <?php
 //nextcloud config
 
-$username = "daft_dutch";
-$password = "";
-$host = "https://nextcloud";
+$username = "daft";
+$password = "passwordtoken";
+$host = "https://nexcloud/";
 
 //local dirs
 $vcardDir = "/opt/sascha/nextcloud/vcards/";
 $calDir = "/opt/sascha/nextcloud/caldav/";
 
 //calendar settings
-$calname = "personal";
+$calname = "persoonlijk";
 $timeBeforeMeeting = 1500;
 
 //phonebook settings

@@ -2,14 +2,16 @@
 
 // Replace with your own Spotify API credentials
 $mpd_host = "192.168.5.2";
+$mpd_port = "6605";
+//$mpd_host = "10.209.212.5";
 
-$client_id = '';
-$client_secret = '';
+$client_id = '7d8e3ac24228439fb5bb0a71e6079ac4';
+$client_secret = '3aa28f79d33e468c94f443722434f8df';
 
-$script = "script.mpd_playlist_slaapkamer";
+$script = "script.mpd_playlist_study";
 
 $img_dir = "./images/";
-$img_path = "/local/images/";
+$img_path = "/local/images/mpd/";
 
 function copy_img($url) {
   global $img_dir;
@@ -94,20 +96,20 @@ cards:
     cards:
 ';
 
-$sPlaylists = shell_exec("mpc --host $mpd_host lsplaylists");
+$sPlaylists = shell_exec("mpc --host $mpd_host -p $mpd_port lsplaylists");
 
 $aPlaylists = explode("\n",$sPlaylists);
 $aPlaylists = array_unique($aPlaylists );
 asort($aPlaylists);
+$sPrefix = "mpddir_";
 
 $i = 0;
 foreach($aPlaylists as $sPlaylist) {
   if (trim($sPlaylist) != "") {
-  $sPrefix = "mpddir_";
 
   if (strpos($sPlaylist, $sPrefix) === 0) {
   $i++;
-    $sPlaylistName = substr($sPlaylist, strlen($sPrefix));
+    $sPlaylistName = str_replace($sPrefix,'',$sPlaylist);
     if ($i == 4) {
       $i = 1;
       echo '
